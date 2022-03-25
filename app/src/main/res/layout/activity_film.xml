@@ -6,4 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".Film">
 
+    <ImageView
+        android:id="@+id/afficheFilmid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/titreFilmid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="titrefilm"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/afficheFilmid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toEndOf="@+id/afficheFilmid"
+        app:layout_constraintTop_toTopOf="@+id/afficheFilmid"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/dateFilmid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="date"
+        app:layout_constraintEnd_toEndOf="@+id/titreFilmid"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="@+id/titreFilmid"
+        app:layout_constraintTop_toBottomOf="@+id/titreFilmid" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="348dp"
+        android:layout_height="153dp"
+        android:text="description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateFilmid"
+        app:layout_constraintVertical_bias="0.225" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

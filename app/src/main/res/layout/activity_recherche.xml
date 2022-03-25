@@ -98,15 +98,15 @@
         app:layout_constraintTop_toTopOf="@+id/textViewNombreid" />
 
     <Button
-        android:id="@+id/searchBtn"
+        android:id="@+id/searchBtnid"
         android:layout_width="185dp"
         android:layout_height="47dp"
         android:layout_marginTop="111dp"
         android:text="Rechercher"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/searchid"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/searchid"
         app:layout_constraintTop_toBottomOf="@+id/seekBarNombreid"
         app:layout_constraintVertical_bias="0.0" />
 
