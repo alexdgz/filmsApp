@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -43,7 +44,8 @@ public class Recherche extends AppCompatActivity {
 
     private Spinner spinnerGenre;
 
-    private TextView testText;
+    private SeekBar seekBarNbrFilm;
+    private TextView nbrFilmSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class Recherche extends AppCompatActivity {
 
 
         spinnerGenre = findViewById(R.id.spinnerGenreid);
+
+        seekBarNbrFilm = findViewById(R.id.seekBarNombreid);
+        nbrFilmSeekBar = findViewById(R.id.nbrFilmSeekBarid);
 
 
         Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/genre/movie/list?api_key="+token+"&language=fr").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
@@ -76,7 +81,23 @@ public class Recherche extends AppCompatActivity {
         });
 
 
+        seekBarNbrFilm.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                nbrFilmSeekBar.setText(""+seekBarNbrFilm.getProgress());
 
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
         rechercher.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +115,7 @@ public class Recherche extends AppCompatActivity {
 
 
                 resultatActivity.putExtra("genre", spinnerGenre.getSelectedItem().toString()); // envoie du genre dans Resultats.java
-
+                resultatActivity.putExtra("nbrFilmAffichage", nbrFilmSeekBar.getText().toString());
 
 
                 startActivity(resultatActivity);
