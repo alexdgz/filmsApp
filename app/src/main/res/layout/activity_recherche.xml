@@ -22,8 +22,8 @@
         android:id="@+id/textViewDateid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="108dp"
         android:text="Date"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,25 +42,24 @@
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <EditText
-        android:id="@+id/textPlainid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
+
+    <DatePicker
+        android:id="@+id/datePickerFilm"
+        android:layout_width="263dp"
+        android:layout_height="161dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="@+id/textViewDateid"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toEndOf="@+id/textViewDateid"
-        app:layout_constraintTop_toTopOf="@+id/textViewDateid"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/textViewDateid" />
 
     <TextView
         android:id="@+id/textViewGenreid"
         android:layout_width="65dp"
         android:layout_height="30dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="260dp"
         android:text="Genre"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="360dp"
         android:text="Nombre"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,21 +100,11 @@
         android:id="@+id/searchBtnid"
         android:layout_width="185dp"
         android:layout_height="47dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:text="Rechercher"
         app:layout_constraintEnd_toEndOf="@+id/searchid"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.32"
         app:layout_constraintStart_toStartOf="@+id/searchid"
         app:layout_constraintTop_toBottomOf="@+id/seekBarNombreid" />
-
-    <TextView
-        android:id="@+id/textViewtest"
-        android:layout_width="178dp"
-        android:layout_height="65dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBtnid" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
