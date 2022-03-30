@@ -33,12 +33,17 @@ public class Resultats extends AppCompatActivity {
         listFilm = findViewById(R.id.listResults);
 
         String recherche = getIntent().getStringExtra("recherche");
-        ArrayList<String> listDateSelectionner = (ArrayList<String>) getIntent().getBundleExtra("date").getSerializable("date");
+
+        Bundle args = getIntent().getExtras();
+
+        ArrayList<Film> listeFilm = args.getParcelableArrayList("listeFilm");
         String genre = getIntent().getStringExtra("genre");
         String nbrFilmAffichage = getIntent().getStringExtra("nbrFilmAffichage");
 
+        System.out.println("listeFilm : CEEEEEEEEEEEEEEE BOOOOOOOOOOOOOOOOONNNNNNNNNNNNN " + listeFilm.toString());
+
         System.out.println("Film : "+recherche);
-        System.out.println("Date : "+listDateSelectionner);
+        System.out.println("Date : "+listeFilm);
         System.out.println("Genre : "+genre);
         System.out.println("Nombre de film à afficher : "+nbrFilmAffichage);
 

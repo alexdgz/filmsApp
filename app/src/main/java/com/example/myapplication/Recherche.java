@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -41,8 +42,6 @@ public class Recherche extends AppCompatActivity {
     private Films listeFilms;
 
     private HashMap genreToid;
-
-
 
 
 
@@ -118,15 +117,14 @@ public class Recherche extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
+        rechercheFilm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b){
+                    rechercheFilm.getText().clear();
+                }
+            }
+        });
         rechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,39 +143,48 @@ public class Recherche extends AppCompatActivity {
 
                         System.out.println("JsonFilm : ---------------- "+JsonFilm.toString());
 
+                        Gson gson = new Gson();
                         for(JsonElement current: JsonFilm){
-                            System.out.println(current.toString());
 
-                            String name = current.getAsJsonObject().get("original_title").getAsString();
-                            String description = current.getAsJsonObject().get("overview").getAsString();
-                            String image = "https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path").getAsString();
-                            String genre = genreToid.get(current.getAsJsonObject().get("genre_ids").getAsJsonArray().get(0).getAsString()).toString();
-                            String year = current.getAsJsonObject().get("release_date").getAsString();
-                            String id = current.getAsJsonObject().get("id").getAsString();
+                            String name = gson.toJson(current.getAsJsonObject().get("original_title")).replace("\"","");
+                            String description = gson.toJson(current.getAsJsonObject().get("overview")).replace("\"","");
+                            String image = gson.toJson("https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path")).replace("\"","");
 
-                            Film currentFilm = new Film(name,description,image,genre,year,id);
+
+                            List genres = new ArrayList();
+                            for(JsonElement currentGenre: current.getAsJsonObject().get("genre_ids").getAsJsonArray()){
+                                genres.add(genreToid.get(currentGenre.getAsInt()));
+                            }
+                            String year = gson.toJson(current.getAsJsonObject().get("release_date")).replace("\"","");
+                            String id = gson.toJson(current.getAsJsonObject().get("id")).replace("\"","");
+
+                            Film currentFilm = new Film(name,description,image,genres,year,id);
 
                             listeFilms.addFilm(currentFilm);
                         }
-                        System.out.println(listeFilms.toString());
+
+
+
+                        Intent resultatActivity = new Intent(getApplicationContext(), Resultats.class);
+
+                        resultatActivity.putExtra("recherche", rechercheFilm.getText().toString()); // envoie du nom tapé dans Resultats.java
+
+
+                        Bundle args = new Bundle();
+                        resultatActivity.putParcelableArrayListExtra("listeFilm", listeFilms.getListFilm()); //envoie de la date dans Resultats.java
+
+
+
+                        resultatActivity.putExtra("genre", spinnerGenre.getSelectedItem().toString()); // envoie du genre dans Resultats.java
+                        resultatActivity.putExtra("nbrFilmAffichage", nbrFilmSeekBar.getText().toString());
+
+
+                        startActivity(resultatActivity);
                     }
                 });
 
 
-                Intent resultatActivity = new Intent(getApplicationContext(), Resultats.class);
 
-                resultatActivity.putExtra("recherche", rechercheFilm.getText().toString()); // envoie du nom tapé dans Resultats.java
-
-                Bundle args = new Bundle();
-                args.putSerializable("date", (Serializable) getDate(date));
-                resultatActivity.putExtra("date", args); //envoie de la date dans Resultats.java
-
-
-                resultatActivity.putExtra("genre", spinnerGenre.getSelectedItem().toString()); // envoie du genre dans Resultats.java
-                resultatActivity.putExtra("nbrFilmAffichage", nbrFilmSeekBar.getText().toString());
-
-
-                startActivity(resultatActivity);
 
             }
         });

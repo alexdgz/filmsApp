@@ -1,14 +1,19 @@
 package com.example.myapplication;
 
-public class Film {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.List;
+
+public class Film implements Parcelable {
     private String name;
     private String description;
     private String image;
-    private String genre;
+    private List genre;
     private String year;
     private String id;
 
-    public Film(String name, String description, String image, String genre, String year, String id) {
+    public Film(String name, String description, String image, List genre, String year, String id) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -16,6 +21,26 @@ public class Film {
         this.year = year;
         this.id = id;
     }
+
+    protected Film(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        image = in.readString();
+        year = in.readString();
+        id = in.readString();
+    }
+
+    public static final Creator<Film> CREATOR = new Creator<Film>() {
+        @Override
+        public Film createFromParcel(Parcel in) {
+            return new Film(in);
+        }
+
+        @Override
+        public Film[] newArray(int size) {
+            return new Film[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -41,12 +66,12 @@ public class Film {
         this.image = image;
     }
 
-    public String getGenre() {
+    public List getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void addGenre(String genre) {
+        this.genre.add(genre);
     }
 
     public String getYear() {
@@ -72,5 +97,19 @@ public class Film {
                 ", genre='" + genre + '\'' +
                 ", year='" + year + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(image);
+        parcel.writeString(year);
+        parcel.writeString(id);
     }
 }
