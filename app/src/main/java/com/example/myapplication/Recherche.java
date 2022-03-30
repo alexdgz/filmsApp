@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -26,13 +27,20 @@ import org.json.JSONException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Recherche extends AppCompatActivity {
 
 
     private String token = "92ab21b9b91fec38b3611c28cb06b710";
+
+
+    private Films listeFilms;
+
+    private HashMap genreToid;
 
 
 
@@ -51,6 +59,11 @@ public class Recherche extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche);
+
+        genreToid = new HashMap();
+
+
+        listeFilms = new Films();
 
         rechercher = findViewById(R.id.searchBtnid);
 
@@ -72,9 +85,14 @@ public class Recherche extends AppCompatActivity {
                 List<String> listGenre = new ArrayList<String>();
                 for(int i =0; i<JsonGenre.size();i++){
 
+                    genreToid.put(JsonGenre.get(i).getAsJsonObject().get("id").getAsInt(), JsonGenre.get(i).getAsJsonObject().get("name").getAsString());
+
                     listGenre.add(JsonGenre.get(i).getAsJsonObject().get("name").getAsString());
 
                 }
+
+
+
                 ArrayAdapter<String> adapterList = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,listGenre);
                 spinnerGenre.setAdapter(adapterList);
             }
@@ -100,9 +118,50 @@ public class Recherche extends AppCompatActivity {
         });
 
 
+
+
+
+
+
+
+
+
+
         rechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String recherche = rechercheFilm.getText().toString().replace(" ", "%20");
+
+                System.out.println("recherche ------------------- : "+recherche);
+
+                Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/search/movie?api_key="+token+"&language=fr&query="+recherche+"&page=1&include_adult=false").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+
+                        //System.out.println("ICIIIIIIIIIIIIIIIIIIIII   "+result);
+
+                        JsonArray JsonFilm = result.get("results").getAsJsonArray();
+
+                        System.out.println("JsonFilm : ---------------- "+JsonFilm.toString());
+
+                        for(JsonElement current: JsonFilm){
+                            System.out.println(current.toString());
+
+                            String name = current.getAsJsonObject().get("original_title").getAsString();
+                            String description = current.getAsJsonObject().get("overview").getAsString();
+                            String image = "https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path").getAsString();
+                            String genre = genreToid.get(current.getAsJsonObject().get("genre_ids").getAsJsonArray().get(0).getAsString()).toString();
+                            String year = current.getAsJsonObject().get("release_date").getAsString();
+                            String id = current.getAsJsonObject().get("id").getAsString();
+
+                            Film currentFilm = new Film(name,description,image,genre,year,id);
+
+                            listeFilms.addFilm(currentFilm);
+                        }
+                        System.out.println(listeFilms.toString());
+                    }
+                });
 
 
                 Intent resultatActivity = new Intent(getApplicationContext(), Resultats.class);

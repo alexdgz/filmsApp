@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +73,10 @@ public class Resultats extends AppCompatActivity {
                 }
 
                 ArrayAdapter<String> arrayAdapt = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listTitre);
-
                 listFilm.setAdapter(arrayAdapt);
-
             }
         });
 
-
     }
+
 }
