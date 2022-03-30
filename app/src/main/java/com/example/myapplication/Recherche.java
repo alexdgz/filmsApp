@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
 
 public class Recherche extends AppCompatActivity {
 
@@ -46,6 +50,7 @@ public class Recherche extends AppCompatActivity {
 
     private SeekBar seekBarNbrFilm;
     private TextView nbrFilmSeekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +104,14 @@ public class Recherche extends AppCompatActivity {
             }
         });
 
-
+        rechercheFilm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b){
+                    rechercheFilm.getText().clear();
+                }
+            }
+        });
         rechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
