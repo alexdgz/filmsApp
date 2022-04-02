@@ -8,9 +8,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Detail extends AppCompatActivity {
 
@@ -42,6 +48,29 @@ public class Detail extends AppCompatActivity {
 
         Film film = (Film) getIntent().getParcelableExtra("film");
 
+        Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/movie/"+film.getId()+"?api_key="+token+"&language=fr").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+
+                JsonArray genres = result.getAsJsonArray("genres");
+                int i = 0;
+                List<String> liste = new ArrayList<>();
+                for(JsonElement current: genres){
+                    liste.add(current.getAsJsonObject().get("name").getAsString());
+                    System.out.println("Numéro :"+i+" : "+current.getAsJsonObject().get("name").getAsString());
+                    i++;
+                }
+                System.out.println("Liste : "+liste);
+                film.setGenre(liste);
+                listeGenres.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, film.getGenre()));
+
+            }
+        });
+
+
+
+        System.out.println("LE FILM : "+film);
+
         System.out.println(film.toString());
 
         titreFilm.setText(film.getName());
@@ -51,8 +80,17 @@ public class Detail extends AppCompatActivity {
 
         System.out.println("Film ICIII : "+film.getId());
 
+        List<String> listeGenresFilm = new ArrayList<>();
 
-//        listeGenres.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, film.getGenre()));
+        //"https://api.themoviedb.org/3/movie/"+recherche+"?api_key="+token+"&language=fr"
+
+
+
+
+        //System.out.println("LISTE GENRES : "+film.getGenre());
+
+
+
 
 
 

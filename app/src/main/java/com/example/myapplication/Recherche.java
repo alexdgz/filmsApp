@@ -154,9 +154,6 @@ public class Recherche extends AppCompatActivity {
                             String image = gson.toJson("https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path")).replace("\\\"","").replace("\"",""); //pour enlever le \" qui se trouve dans l'url de l'image
 
 
-                            System.out.println("current image : ---------------- "+image);
-
-
 
                             List genres = new ArrayList();
                             for(JsonElement currentGenre: current.getAsJsonObject().get("genre_ids").getAsJsonArray()){
@@ -167,6 +164,7 @@ public class Recherche extends AppCompatActivity {
 
                             Film currentFilm = new Film(name,description,image,genres,year,id);
 
+
                             listeFilms.addFilm(currentFilm);
                         }
 
@@ -175,7 +173,6 @@ public class Recherche extends AppCompatActivity {
 
                         resultatActivity.putExtra("recherche", rechercheFilm.getText().toString()); // envoie du nom tapé dans Resultats.java
 
-                        Bundle args = new Bundle();
                         resultatActivity.putParcelableArrayListExtra("listeFilm", listeFilms.getListFilm()); //envoie de la date dans Resultats.java
 
 

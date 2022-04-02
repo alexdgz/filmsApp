@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Film implements Parcelable {
@@ -70,8 +71,12 @@ public class Film implements Parcelable {
         return genre;
     }
 
-    public void addGenre(String genre) {
-        this.genre.add(genre);
+    public boolean addGenre(String genre) {
+        return this.genre.add(genre);
+    }
+
+    public void setGenre(List genre) {
+        this.genre = genre;
     }
 
     public String getYear() {
@@ -115,4 +120,6 @@ public class Film implements Parcelable {
         parcel.writeString(year);
         parcel.writeString(id);
     }
+
+
 }

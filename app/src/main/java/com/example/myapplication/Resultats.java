@@ -27,13 +27,13 @@ public class Resultats extends AppCompatActivity {
 
 
 
-    private ListView listFilm;
+    private ListView listResults;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultat);
 
-        listFilm = findViewById(R.id.listResults);
+        listResults = findViewById(R.id.listResults);
 
         Bundle args = getIntent().getExtras();
         String nbrFilmAffichage = getIntent().getStringExtra("nbrFilmAffichage");
@@ -41,6 +41,8 @@ public class Resultats extends AppCompatActivity {
         ArrayList<Film> listeFilm = new ArrayList<>();
         listeFilm.clear();
         listeFilm = args.getParcelableArrayList("listeFilm");
+
+        System.out.println("LISTE AVANT LE FOR : "+listeFilm);
 
         ArrayList<Film> listeFilmRecherche = new ArrayList<>();
         listeFilmRecherche.clear();
@@ -55,13 +57,16 @@ public class Resultats extends AppCompatActivity {
             listeFilmRecherche.add(listeFilm.get(i));
         }
 
-        listFilm.setAdapter(new AdapterFilm(getApplicationContext(), listeFilmRecherche));
+        listResults.setAdapter(new AdapterFilm(getApplicationContext(), listeFilmRecherche));
 
 
-        listFilm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        System.out.println("LES FILM PENDANT LA LISTE"+listeFilm);
+        listResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Film filmDetail = listeFilmRecherche.get(i);
+
+                System.out.println("CLICK POUR LE DETAIL : "+filmDetail);
                 Intent intent = new Intent(getApplicationContext(), Detail.class);
                 intent.putExtra("film", filmDetail);
                 startActivity(intent);
