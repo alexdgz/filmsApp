@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Films implements java.io.Serializable {
     private ArrayList<Film> listFilm = null;
@@ -27,5 +26,9 @@ public class Films implements java.io.Serializable {
         return "Films{" +
                 "listFilm=" + listFilm +
                 '}';
+    }
+
+    public void clear(){
+        listFilm.clear();
     }
 }

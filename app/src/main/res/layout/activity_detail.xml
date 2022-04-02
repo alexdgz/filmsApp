@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/titreFilmid" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/descriptionFilmid"
         android:layout_width="348dp"
         android:layout_height="153dp"
         android:text="description"
@@ -49,7 +49,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/afficheFilmid"
+        app:layout_constraintVertical_bias="0.43" />
+
+    <ListView
+        android:id="@+id/genresFilmId"
+        android:layout_width="106dp"
+        android:layout_height="94dp"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionFilmid"
+        app:layout_constraintEnd_toEndOf="@+id/dateFilmid"
+        app:layout_constraintStart_toStartOf="@+id/dateFilmid"
+        app:layout_constraintTop_toBottomOf="@+id/dateFilmid" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Genres :"
+        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
+        app:layout_constraintEnd_toEndOf="@+id/genresFilmId"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/genresFilmId"
         app:layout_constraintTop_toBottomOf="@+id/dateFilmid"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintVertical_bias="0.363" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

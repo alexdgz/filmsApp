@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,62 +25,46 @@ public class Resultats extends AppCompatActivity {
 
     private TextView test;
 
+
+
     private ListView listFilm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultat);
-     //   test = findViewById(R.id.textViewtest);
 
         listFilm = findViewById(R.id.listResults);
 
-        String recherche = getIntent().getStringExtra("recherche");
-
         Bundle args = getIntent().getExtras();
-
-        ArrayList<Film> listeFilm = args.getParcelableArrayList("listeFilm");
-        String genre = getIntent().getStringExtra("genre");
         String nbrFilmAffichage = getIntent().getStringExtra("nbrFilmAffichage");
 
-        System.out.println("listeFilm : CEEEEEEEEEEEEEEE BOOOOOOOOOOOOOOOOONNNNNNNNNNNNN " + listeFilm.toString());
+        ArrayList<Film> listeFilm = new ArrayList<>();
+        listeFilm.clear();
+        listeFilm = args.getParcelableArrayList("listeFilm");
 
-        System.out.println("Film : "+recherche);
-        System.out.println("Date : "+listeFilm);
-        System.out.println("Genre : "+genre);
-        System.out.println("Nombre de film à afficher : "+nbrFilmAffichage);
+        ArrayList<Film> listeFilmRecherche = new ArrayList<>();
+        listeFilmRecherche.clear();
 
-        recherche = recherche.replace(" ", "+");
 
-        System.out.println("replaaaaaaaaaaaaaaaaaaaccccccccccccccccceeeeeeeeee : "+recherche);
+        int nbrFilm = Integer.parseInt(nbrFilmAffichage);
 
-/*
+        if (nbrFilm > listeFilm.size()) {
+            nbrFilm = listeFilm.size();
+        }
+        for (int i = 0; i < nbrFilm; i++) {
+            listeFilmRecherche.add(listeFilm.get(i));
+        }
 
-        String test = "https://api.themoviedb.org/3/search/movie?api_key="+token+"&language=fr&query=" +recherche+"&page=1&include_adult=false";
+        listFilm.setAdapter(new AdapterFilm(getApplicationContext(), listeFilmRecherche));
 
-        System.out.println("url : "+test);*/
-        Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/search/movie?api_key="+token+"&language=fr&query="+recherche+"&page=1&include_adult=false").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+        listFilm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onCompleted(Exception e, JsonObject result) {
-
-                //System.out.println("Film rechercher : "+result.toString());
-
-                JsonArray JsonTitre = result.get("results").getAsJsonArray();
-                System.out.println("Film rechercher : "+JsonTitre.toString());
-
-
-                List<String> listTitre = new ArrayList<String>();
-
-                int nbrFilm = Integer.parseInt(nbrFilmAffichage);
-
-                if(nbrFilm>JsonTitre.size()){
-                    nbrFilm = JsonTitre.size();
-                }
-                for(int i =0; i<nbrFilm;i++){
-                    listTitre.add(JsonTitre.get(i).getAsJsonObject().get("original_title").getAsString());
-                }
-
-                ArrayAdapter<String> arrayAdapt = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listTitre);
-                listFilm.setAdapter(arrayAdapt);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Film filmDetail = listeFilmRecherche.get(i);
+                Intent intent = new Intent(getApplicationContext(), Detail.class);
+                intent.putExtra("film", filmDetail);
+                startActivity(intent);
             }
         });
 

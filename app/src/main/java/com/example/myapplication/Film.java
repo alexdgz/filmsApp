@@ -94,8 +94,11 @@ public class Film implements Parcelable {
     public String toString() {
         return "Film{" +
                 "name='" + name + '\'' +
-                ", genre='" + genre + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", genre=" + genre +
                 ", year='" + year + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 

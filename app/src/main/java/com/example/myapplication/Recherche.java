@@ -146,9 +146,16 @@ public class Recherche extends AppCompatActivity {
                         Gson gson = new Gson();
                         for(JsonElement current: JsonFilm){
 
+
+                            //System.out.println("current image : ---------------- "+current.getAsJsonObject().get("poster_path"));
+
                             String name = gson.toJson(current.getAsJsonObject().get("original_title")).replace("\"","");
                             String description = gson.toJson(current.getAsJsonObject().get("overview")).replace("\"","");
-                            String image = gson.toJson("https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path")).replace("\"","");
+                            String image = gson.toJson("https://image.tmdb.org/t/p/w500"+current.getAsJsonObject().get("poster_path")).replace("\\\"","").replace("\"",""); //pour enlever le \" qui se trouve dans l'url de l'image
+
+
+                            System.out.println("current image : ---------------- "+image);
+
 
 
                             List genres = new ArrayList();
@@ -164,22 +171,22 @@ public class Recherche extends AppCompatActivity {
                         }
 
 
-
                         Intent resultatActivity = new Intent(getApplicationContext(), Resultats.class);
 
                         resultatActivity.putExtra("recherche", rechercheFilm.getText().toString()); // envoie du nom tapé dans Resultats.java
-
 
                         Bundle args = new Bundle();
                         resultatActivity.putParcelableArrayListExtra("listeFilm", listeFilms.getListFilm()); //envoie de la date dans Resultats.java
 
 
-
                         resultatActivity.putExtra("genre", spinnerGenre.getSelectedItem().toString()); // envoie du genre dans Resultats.java
                         resultatActivity.putExtra("nbrFilmAffichage", nbrFilmSeekBar.getText().toString());
 
-
                         startActivity(resultatActivity);
+
+                        listeFilms.clear(); // on vide la liste de film pour éviter de récupérer les films de la dernière recherche
+
+
                     }
                 });
 
